@@ -72,9 +72,18 @@
           "key": true,
           "type": "cds.UUID"
         },
-        "type": {
-          "@title": "Type",
-          "type": "cds.String"
+        "category": {
+          "@title": "{i18n>Category}",
+          "@description": "{i18n>CategoryCode.Description}",
+          "type": "app.expenses.Category",
+          "target": "app.expenses.Categories",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
         },
         "location": {
           "@title": "Location",
@@ -119,6 +128,108 @@
         }
       }
     },
+    "app.expenses.Category": {
+      "kind": "type",
+      "@title": "{i18n>Category}",
+      "@description": "{i18n>CategoryCode.Description}",
+      "type": "cds.Association",
+      "target": "app.expenses.Categories",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "app.expenses.Categories": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "descr"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CategoryCode}",
+          "@Common.Text": {
+            "=": "descr"
+          },
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "app.expenses.Categories.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "app.expenses.Categories.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "CatalogService": {
       "@source": "expenses_srv.cds",
       "kind": "service",
@@ -141,7 +252,7 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "type"
+            "=": "category_code"
           },
           "@UI.Importance": {
             "#": "High"
@@ -252,7 +363,7 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "type"
+            "=": "category_code"
           }
         },
         {
@@ -383,9 +494,18 @@
           "key": true,
           "type": "cds.UUID"
         },
-        "type": {
-          "@title": "Type",
-          "type": "cds.String"
+        "category": {
+          "@title": "{i18n>Category}",
+          "@description": "{i18n>CategoryCode.Description}",
+          "type": "app.expenses.Category",
+          "target": "CatalogService.Categories",
+          "keys": [
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
         },
         "location": {
           "@title": "Location",
@@ -877,6 +997,38 @@
       "type": "cds.String",
       "length": 255
     },
+    "app.expenses.Categories.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CategoryCode}",
+          "@Common.Text": {
+            "=": "descr"
+          },
+          "key": true,
+          "type": "cds.Integer"
+        }
+      }
+    },
     "sap.common.Languages.texts": {
       "kind": "entity",
       "@odata.draft.enabled": false,
@@ -973,6 +1125,102 @@
           "key": true,
           "type": "cds.String",
           "length": 3
+        }
+      }
+    },
+    "CatalogService.Categories": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "descr"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "app.expenses.Categories"
+          ]
+        }
+      },
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CategoryCode}",
+          "@Common.Text": {
+            "=": "descr"
+          },
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "CatalogService.Categories.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "CatalogService.Categories.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
         }
       }
     },
@@ -1075,6 +1323,46 @@
               ]
             }
           ]
+        }
+      }
+    },
+    "CatalogService.Categories.texts": {
+      "kind": "entity",
+      "@cds.autoexposed": true,
+      "@odata.draft.enabled": false,
+      "projection": {
+        "from": {
+          "ref": [
+            "app.expenses.Categories.texts"
+          ]
+        }
+      },
+      "elements": {
+        "locale": {
+          "key": true,
+          "type": "cds.String",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": false,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CategoryCode}",
+          "@Common.Text": {
+            "=": "descr"
+          },
+          "key": true,
+          "type": "cds.Integer"
         }
       }
     },

@@ -5,7 +5,7 @@ COLUMN TABLE app_expenses_Expenses (
   modifiedAt TIMESTAMP,
   modifiedBy NVARCHAR(255),
   ID NVARCHAR(36) NOT NULL,
-  type NVARCHAR(5000),
+  category_code INTEGER,
   location NVARCHAR(5000),
   "PRODUCT" NVARCHAR(5000),
   product_quantity DOUBLE,
@@ -16,5 +16,6 @@ COLUMN TABLE app_expenses_Expenses (
   "TOTAL" DOUBLE,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN app_expenses_Categories AS category ON (category.code = category_code),
   MANY TO ONE JOIN sap_common_Currencies AS currency ON (currency.code = currency_code)
 )

@@ -5,7 +5,7 @@ VIEW localized_app_expenses_Expenses AS SELECT
   L.modifiedAt,
   L.modifiedBy,
   L.ID,
-  L.type,
+  L.category_code,
   L.location,
   L."PRODUCT",
   L.product_quantity,
@@ -16,5 +16,6 @@ VIEW localized_app_expenses_Expenses AS SELECT
   L."TOTAL"
 FROM app_expenses_Expenses AS L
 WITH ASSOCIATIONS (
+  MANY TO ONE JOIN localized_app_expenses_Categories AS category ON (category.code = category_code),
   MANY TO ONE JOIN localized_sap_common_Currencies AS currency ON (currency.code = currency_code)
 )

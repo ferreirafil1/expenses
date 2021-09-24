@@ -15,7 +15,7 @@ annotate cs.Expenses with @( // header-level annotations
             },
             {
                 $Type             : 'UI.DataField',
-                Value             : type,
+                Value             : category.descr,
                 ![@UI.Importance] : #High
             },
             {
@@ -87,7 +87,7 @@ annotate cs.Expenses with @( // header-level annotations
         FieldGroup #Details : {Data : [
             {
                 $Type : 'UI.DataField',
-                Value : type,
+                Value : category_code,
             },
             {
                 $Type : 'UI.DataField',

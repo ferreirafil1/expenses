@@ -5,7 +5,7 @@ VIEW CatalogService_Expenses AS SELECT
   Expenses_0.modifiedAt,
   Expenses_0.modifiedBy,
   Expenses_0.ID,
-  Expenses_0.type,
+  Expenses_0.category_code,
   Expenses_0.location,
   Expenses_0."PRODUCT",
   Expenses_0.product_quantity,
@@ -16,5 +16,6 @@ VIEW CatalogService_Expenses AS SELECT
   Expenses_0."TOTAL"
 FROM app_expenses_Expenses AS Expenses_0
 WITH ASSOCIATIONS (
+  MANY TO ONE JOIN CatalogService_Categories AS category ON (category.code = category_code),
   MANY TO ONE JOIN CatalogService_Currencies AS currency ON (currency.code = currency_code)
 )

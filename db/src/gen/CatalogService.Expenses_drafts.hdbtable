@@ -5,7 +5,7 @@ COLUMN TABLE CatalogService_Expenses_drafts (
   modifiedAt TIMESTAMP NULL,
   modifiedBy NVARCHAR(255) NULL,
   ID NVARCHAR(36) NOT NULL,
-  type NVARCHAR(5000) NULL,
+  category_code INTEGER NULL,
   location NVARCHAR(5000) NULL,
   "PRODUCT" NVARCHAR(5000) NULL,
   product_quantity DOUBLE NULL,
@@ -20,6 +20,7 @@ COLUMN TABLE CatalogService_Expenses_drafts (
   DraftAdministrativeData_DraftUUID NVARCHAR(36) NOT NULL,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
+  MANY TO ONE JOIN CatalogService_Categories AS category ON (category.code = category_code),
   MANY TO ONE JOIN CatalogService_Currencies AS currency ON (currency.code = currency_code),
   MANY TO ONE JOIN CatalogService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
 )
