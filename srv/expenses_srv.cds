@@ -1,5 +1,6 @@
 using app.expenses from '../db/expenses';
 
+@requires: 'authenticated-user'
 service CatalogService @(path : 'CatalogService') {
 
     @odata.draft.enabled : true

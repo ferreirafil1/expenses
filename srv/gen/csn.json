@@ -122,6 +122,7 @@
     "CatalogService": {
       "@source": "expenses_srv.cds",
       "kind": "service",
+      "@requires": "authenticated-user",
       "@path": "CatalogService"
     },
     "CatalogService.Expenses": {
